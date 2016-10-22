@@ -6,75 +6,70 @@ declare var $;
 })
 export class SortableGrid implements OnInit{
   @Input() data:any;
+  @Input() manager:any;
   public container:any;
-  public elementsCount = 0;
   public idPrefix = 'sortable_';
-  constructor(public el:ElementRef){
-    console.log('constructor');
-  };
+  constructor(public el:ElementRef){};
   ngOnInit(){
-    console.log('ngOnInit');
-    this.elementsCount = 0;
     this.container = $(this.el.nativeElement).find('#sortable');
+    this.container.on('click','.add-element',()=>{
+      this.manager.addElement();
+    });
     this.container.sortable({
-      placeholder: "sortable-element-placeholder",
+      placeholder: 'sortable-element-placeholder',
       opacity:0.6,
       items: '.sortable-element',
+      //containment:'.ion-page.show-page',
       //revert: true,
+      tolerance:'pointer',
+      handle: '.handle',
       scroll:false,
       start: (e, ui) => {  },
-      over: (e, ui) => { ui.item.removeClass('should-delete'); },
-      out: (e, ui) => { ui.item.addClass('should-delete'); },
+      over: (e, ui) => { 
+        ui.item.removeClass('should-delete');
+        if(ui.placeholder)
+          ui.placeholder.show();
+      },
+      out: (e, ui) => { 
+        ui.item.addClass('should-delete');
+        if(ui.placeholder)
+          ui.placeholder.hide();
+      },
       beforeStop: (e,ui) => { 
         if(ui.item.hasClass('should-delete')){
           let id = ui.item.attr('id');
-          let oldPosition = getArrayIndex(this.data,id,'id');
+          let oldPosition = this.manager.getArrayIndex(this.data,id,'id');
           if(oldPosition>-1){
             this.data.splice(oldPosition,1);
-            this.elementsCount = this.data.length;
+            this.manager.elementsCount = this.data.length;
           }
           ui.item.remove();
+          this.manager.refresh();
         }
       },
       update: (e,ui) => {
         let newPosition = ui.item.index();
         let id = ui.item.attr('id');
-        let oldPosition = getArrayIndex(this.data,id,'id');
+        let oldPosition = this.manager.getArrayIndex(this.data,id,'id');
         if(oldPosition>-1&&oldPosition!=newPosition){
-          moveElementInArray(this.data,oldPosition,newPosition);
+          this.manager.moveElementInArray(this.data,oldPosition,newPosition);
         }
+        this.manager.refresh();
       }
     });
     this.container.disableSelection();
   }
   ngDoCheck() {
-    if(this.data.length!=this.elementsCount){
-      console.warn('Drawing');
-      this.elementsCount = this.data.length;
+    if(this.data.length!=this.manager.elementsCount){
+      this.manager.elementsCount = this.data.length;
       this.container.empty();
       for(var i=0,e;i<this.data.length;i++){
         e = this.data [i];
         e.id = [this.idPrefix,i].join('');
-        this.container.append($(`<div class="sortable-element" id="${e.id}"><span>${e.value+' '+i}</span></div>`,{}));
+        this.container.append($(`<div class="sortable-element" id="${e.id}"><span class="handle">${e.value+' '+i}</span></div>`,{}));
       }
+      this.container.append($(`<button class="add-element disable-hover button button-clear"><span class="button-inner">+<br/>Add</span><div class="button-effect"></div></button>`,{}));
       this.container.append($(`<div class="clearfix"></div>`,{}));
     }
   }
 }
-function getArrayIndex(a,k,p){
-  if(a&&a.length>0&&k&&p)
-    for(var i=0;i<a.length;i++)
-      if(a[i][p]==k)
-        return i;
-  return -1;
-}
-function moveElementInArray(array,old_index, new_index) {
-    if (new_index >= array.length) {
-        var k = new_index - array.length;
-        while ((k--) + 1) {
-            array.push(undefined);
-        }
-    }
-    array.splice(new_index, 0, array.splice(old_index, 1)[0]);
-    return array; // for testing purposes
-};

@@ -4,14 +4,18 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-item>
-    <button large (click)="addElement()">Add</button>
-  </ion-item>
-  <sortable-grid [data]="elements"></sortable-grid>
+<ion-content padding id="home-container">
   
-  <ion-list>
-    <template ngFor let-e [ngForOf]="elements">
+  <!--
+  <ion-item>
+    <button ion-button large (click)="elementsManager.addElement()">Add</button>
+  </ion-item>
+  -->
+
+  <sortable-grid [data]="elementsManager.selected" [manager]="elementsManager"></sortable-grid>
+
+  <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
+    <template ngFor let-e [ngForOf]="elementsManager.selected">
       <ion-item>
         <!--
         <ion-avatar item-left>

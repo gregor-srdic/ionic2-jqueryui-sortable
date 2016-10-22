@@ -7,7 +7,8 @@ sortable-grid {
         margin:16px 0;
         width:100%;
         .sortable-element-placeholder,
-        .sortable-element {
+        .sortable-element,
+        .add-element {
             float:left;
             padding:8px;
             width:25%;
@@ -16,7 +17,9 @@ sortable-grid {
                 display: inline-block;
                 width:100%;
                 height:100%;
-                line-height: 60px;
+                display:flex;
+                justify-content: center;
+                align-items: center;
                 text-align: center;
                 border-radius:2px;
                 background: #dedede;
@@ -35,20 +38,45 @@ sortable-grid {
                 border:1px dashed #dedede;
             }
         }
+        .add-element {
+            background: none;
+            span {
+                border:1px dashed #dedede;
+                background:none;
+            }
+        }
         .clearfix {
             clear:both;
         }
     }
 }
-@media (min-width: 360px) and (max-width: 767px) {
+@media (min-width: 420px) and (max-width: 767px) {
     sortable-grid #sortable {
         .sortable-element-placeholder,
-        .sortable-element {
-            width:20%;
+        .sortable-element,
+        .add-element {
+            width:16.6%;
             height:92px;
-            span {
-                line-height: 76px;
-            }
+        }
+    }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+    sortable-grid #sortable {
+        .sortable-element-placeholder,
+        .sortable-element,
+        .add-element {
+            width:12.5%;
+            height:92px;
+        }
+    }
+}
+@media (min-width: 1024px) {
+    sortable-grid #sortable {
+        .sortable-element-placeholder,
+        .sortable-element,
+        .add-element {
+            width:10%;
+            height:108px;
         }
     }
 }
