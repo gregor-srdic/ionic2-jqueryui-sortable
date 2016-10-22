@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <button large (click)="addElement()">Add</button>
+  </ion-item>
+  <sortable-grid [data]="elements"></sortable-grid>
+  
+  <ion-list>
+    <template ngFor let-e [ngForOf]="elements">
+      <ion-item>
+        <!--
+        <ion-avatar item-left>
+          {{e.value}}
+        </ion-avatar>
+        -->
+        <h2>Element {{e.value}}</h2>
+      </ion-item>
+    </template>
+  </ion-list>
+  
+</ion-content>
