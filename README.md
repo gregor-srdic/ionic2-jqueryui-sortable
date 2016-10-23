@@ -5,6 +5,9 @@
 * [jquery-ui sortable widget](https://jqueryui.com/sortable/)
 * [jquery-touch-punch library](http://touchpunch.furf.com/)
 
+#screenshots
+[01.png](https://postimg.org/image/6tigc5kxh/)
+
 ##Instalation steps
 * ```git clone https://github.com/gregor-srdic/ionic2-jqueryui-sortable.git```
 * ```cd ionic2-jqueryui-sortable```
