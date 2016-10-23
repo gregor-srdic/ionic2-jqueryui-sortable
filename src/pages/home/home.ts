@@ -1,6 +1,5 @@
 import { Component,NgZone } from '@angular/core';
-
-import { NavController } from 'ionic-angular';
+import { NavController,AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -29,7 +28,7 @@ export class HomePage {
     },
     elementsCount:0
   };
-  constructor(public navCtrl: NavController,public zone:NgZone) {
+  constructor(public navCtrl: NavController,public zone:NgZone, public alertCtrl: AlertController) {
     var me = this;
     this.elementsManager.getRandomElement = function(){
       var i = Math.ceil(Math.random() * me.elementsManager.availableElements.length) - 1;
@@ -40,8 +39,41 @@ export class HomePage {
     this.elementsManager.refresh = function(){
       me.zone.run(() =>{});
     };
-    this.elementsManager.addElement = function(){
-      me.elementsManager.selected.push(me.elementsManager.getRandomElement());
+    this.elementsManager.openAddElementDialog = function(){
+      let inputs = [];
+      for(var i=0; i<me.elementsManager.availableElements.length;i++)
+        inputs.push({
+          type: 'radio',
+          name: 'elementTypeInput',
+          label: 'Element '+me.elementsManager.availableElements[i],
+          value: me.elementsManager.availableElements[i]
+        });
+      inputs[0].checked = true;
+      let alert = me.alertCtrl.create({
+        title: 'Select element to add',
+        inputs: inputs,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: data => {}
+          },
+          {
+            text: 'Confirm',
+            handler: data => {
+              me.elementsManager.addElement({
+                value: data
+              });
+            }
+          }
+        ]
+      });
+      alert.present();
+    };
+    this.elementsManager.addElement = function(element?:any){
+      if(!element)
+        element = me.elementsManager.getRandomElement();
+      me.elementsManager.selected.push(element);
     };
     this.elementsManager.addElement();
     this.elementsManager.addElement();

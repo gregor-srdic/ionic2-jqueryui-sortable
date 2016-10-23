@@ -13,7 +13,8 @@ export class SortableGrid implements OnInit{
   ngOnInit(){
     this.container = $(this.el.nativeElement).find('#sortable');
     this.container.on('click','.add-element',()=>{
-      this.manager.addElement();
+      //this.manager.addElement();
+      this.manager.openAddElementDialog();
     });
     this.container.sortable({
       placeholder: 'sortable-element-placeholder',
