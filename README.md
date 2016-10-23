@@ -5,6 +5,8 @@
 * [jquery-ui sortable widget](https://jqueryui.com/sortable/)
 * [jquery-touch-punch library](http://touchpunch.furf.com/)
 
+#demo
+[codepen](http://codepen.io/gregor-srdic/pen/LRqjVw)
 #screenshots
 [01.png](https://postimg.org/image/6tigc5kxh/)
 
