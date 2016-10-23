@@ -39,6 +39,9 @@ export class HomePage {
     this.elementsManager.refresh = function(){
       me.zone.run(() =>{});
     };
+    this.elementsManager.removeElement = function(){
+      
+    };
     this.elementsManager.openAddElementDialog = function(){
       let inputs = [];
       for(var i=0; i<me.elementsManager.availableElements.length;i++)

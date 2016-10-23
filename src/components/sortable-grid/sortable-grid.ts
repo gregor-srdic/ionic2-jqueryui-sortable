@@ -13,8 +13,21 @@ export class SortableGrid implements OnInit{
   ngOnInit(){
     this.container = $(this.el.nativeElement).find('#sortable');
     this.container.on('click','.add-element',()=>{
-      //this.manager.addElement();
+      //console.log('add-element');
       this.manager.openAddElementDialog();
+    });
+    this.container.on('click','button.remove-element',(e)=>{
+      //console.log('remove-element');
+      e.stopPropagation();
+      let item = $(e.currentTarget).parent();
+      let id = item.attr('id');
+      let oldPosition = this.manager.getArrayIndex(this.data,id,'id');
+      if(oldPosition>-1){
+          this.data.splice(oldPosition,1);
+          this.manager.elementsCount = this.data.length;
+      }
+      item.remove();
+      this.manager.refresh();
     });
     this.container.sortable({
       placeholder: 'sortable-element-placeholder',
@@ -67,7 +80,7 @@ export class SortableGrid implements OnInit{
       for(var i=0,e;i<this.data.length;i++){
         e = this.data [i];
         e.id = [this.idPrefix,i].join('');
-        this.container.append($(`<div class="sortable-element" id="${e.id}"><span class="handle">${e.value+' '+i}</span></div>`,{}));
+        this.container.append($(`<div class="sortable-element" id="${e.id}"><span class="handle">${e.value+' '+i}</span><button class="remove-element disable-hover button button-clear"><span class="button-inner"><ion-icon role="img" class="icon-md ion-md-close"></ion-icon></span><div class="button-effect"></div></button></div>`,{}));
       }
       this.container.append($(`<button class="add-element disable-hover button button-clear"><span class="button-inner">+<br/>Add</span><div class="button-effect"></div></button>`,{}));
       this.container.append($(`<div class="clearfix"></div>`,{}));

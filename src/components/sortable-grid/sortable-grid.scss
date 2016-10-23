@@ -25,6 +25,16 @@ sortable-grid {
                 background: #dedede;
             }
         }
+        .sortable-element {
+            position:relative;
+            button {
+                cursor:pointer;
+                position: absolute;
+                top: 10px;
+                right: 10px
+            }
+                
+        }
         .sortable-element-placeholder {
             background: #FFF;
             position:relative;
