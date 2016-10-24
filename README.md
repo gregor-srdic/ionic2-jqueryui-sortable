@@ -6,7 +6,7 @@
 * [jquery-touch-punch library](http://touchpunch.furf.com/)
 
 #demo
-[codepen](http://codepen.io/gregor-srdic/pen/LRqjVw)
+[live](https://pepa.azurewebsites.net/github/ionic2-jqueryui-sortable/index.html)
 #screenshots
 [01.png](https://postimg.org/image/6tigc5kxh/)
 
